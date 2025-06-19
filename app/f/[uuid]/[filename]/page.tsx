@@ -3,16 +3,18 @@ import { notFound } from "next/navigation";
 import { formatBytes, timeSince } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "@/lib/kv";
 
-export default async function FilePage({
-  params,
-}: {
+export default async function FilePage(props: {
   params: { uuid: string; filename: string };
 }) {
-  const { uuid, filename } = params;
-  const metadata = await getMetadata(uuid);
+  const { uuid, filename } = props.params;
 
-  if (!metadata || metadata.filename !== filename) return notFound();
+  const metadata: Metadata | null = await getMetadata(uuid);
+
+  if (!metadata || metadata.filename !== filename) {
+    return notFound();
+  }
 
   const fileUrl = `https://${process.env.R2_BUCKET}.r2.cloudflarestorage.com/${uuid}/${filename}`;
   const isImage = metadata.mimetype.startsWith("image/");
