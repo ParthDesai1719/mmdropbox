@@ -4,14 +4,11 @@ import { formatBytes, timeSince } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 
-type Props = {
-  params: {
-    uuid: string;
-    filename: string;
-  };
-};
-
-export default async function FilePage({ params }: Props) {
+export default async function FilePage({
+  params,
+}: {
+  params: { uuid: string; filename: string };
+}) {
   const { uuid, filename } = params;
   const metadata = await getMetadata(uuid);
 
@@ -28,18 +25,24 @@ export default async function FilePage({ params }: Props) {
         {formatBytes(metadata.size)} • Uploaded {timeSince(metadata.createdAt)}
       </p>
 
-          {isImage && (
-            <Image
-              src={fileUrl}
-              alt={metadata.filename}
-              width={800}
-              height={600}
-              className="rounded shadow mb-4"
-              unoptimized
-            />
-          )}
+      {isImage && (
+        <Image
+          src={fileUrl}
+          alt={metadata.filename}
+          width={800}
+          height={600}
+          className="rounded shadow mb-4"
+          unoptimized
+        />
+      )}
 
-      {isPdf && <iframe src={fileUrl} className="w-full max-w-4xl h-[500px] mb-4" />}
+      {isPdf && (
+        <iframe
+          src={fileUrl}
+          className="w-full max-w-4xl h-[500px] mb-4"
+          title="PDF Preview"
+        />
+      )}
 
       <Link
         href={fileUrl}
