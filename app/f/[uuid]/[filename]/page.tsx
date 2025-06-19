@@ -4,7 +4,10 @@ import { formatBytes, timeSince } from "@/lib/utils";
 import Link from "next/link";
 
 type Props = {
-  params: { uuid: string; filename: string };
+  params: {
+    uuid: string;
+    filename: string;
+  };
 };
 
 export default async function FilePage({ params }: Props) {
