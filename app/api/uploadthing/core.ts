@@ -1,6 +1,6 @@
 // api/uploadthing/core.ts
 import { createUploadthing, type FileRouter } from "uploadthing/server";
-import { uploadToR2 } from "@/api/r2/r2";
+import { uploadToR2 } from "@/app/api/r2/r2";
 import { saveMetadata } from "@/lib/kv";
 import { v4 as uuidv4 } from "uuid";
 

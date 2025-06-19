@@ -1,5 +1,5 @@
 // api/metadata/delete.ts
-import { deleteFromR2 } from "@/api/r2/r2";
+import { deleteFromR2 } from "@/app/api/r2/r2";
 import { deleteMetadata, getMetadata } from "@/lib/kv";
 import { NextResponse } from "next/server";
 
