@@ -2,6 +2,7 @@ import { getMetadata } from "@/lib/kv";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { formatBytes, timeSince } from "@/lib/utils";
 
 export default async function Page({
   params,
@@ -19,10 +20,10 @@ export default async function Page({
   const isPdf = metadata.mimetype === "application/pdf";
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10 text-center">
-      <h1 className="text-xl font-bold mb-4">{metadata.filename}</h1>
-      <p className="text-sm text-gray-500 mb-2">
-        {metadata.size} bytes • Uploaded {new Date(metadata.createdAt).toLocaleString()}
+    <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
+      <h1 className="text-xl font-semibold mb-2">{metadata.filename}</h1>
+      <p className="text-gray-500 mb-4">
+        {formatBytes(metadata.size)} • Uploaded {timeSince(metadata.createdAt)}
       </p>
 
       {isImage && (
@@ -31,7 +32,7 @@ export default async function Page({
           alt={metadata.filename}
           width={800}
           height={600}
-          className="rounded shadow my-4"
+          className="rounded shadow mb-4"
           unoptimized
         />
       )}
@@ -39,7 +40,7 @@ export default async function Page({
       {isPdf && (
         <iframe
           src={fileUrl}
-          className="w-full max-w-4xl h-[500px] border my-4"
+          className="w-full max-w-4xl h-[500px] mb-4"
           title="PDF Preview"
         />
       )}
@@ -49,7 +50,7 @@ export default async function Page({
         download
         target="_blank"
         rel="noopener noreferrer"
-        className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 mt-4"
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         Download File
       </Link>
